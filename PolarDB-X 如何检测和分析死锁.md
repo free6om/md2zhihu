@@ -114,11 +114,33 @@ MySQL 8.0.26 源码
 </table>
 
 而下表则表示，当 MDL 的等待队列中已存在某种 MDL 时，获取另一种 MDL 会不会被阻塞，每一行表示请求的锁类型，每一列表示队列中正在等待的锁类型。其中，“-” 表示会被阻塞。可以看到，当队列中已有 X 锁在等待时，获取其他非 X 锁类型的锁都会被阻塞，即会被排在 X 锁的后面。
-|  | IX | S | X |
-| -- | -- | -- | -- 
-| IX     | +     | -     | - |
-| S     | +     | +     | - |
-| X     | +     | +     | + |
+
+<table>
+<tr class="header">
+<th></th>
+<th>IX</th>
+<th>S</th>
+<th>X</th>
+</tr>
+<tr class="odd">
+<td>IX</td>
+<td>+</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>S</td>
+<td>+</td>
+<td>+</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>X</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+</tr>
+</table>
 
 从图中也能看出，这三种范围锁的优先级顺序为：X > S > IX.
 
